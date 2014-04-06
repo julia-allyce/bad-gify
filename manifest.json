@@ -4,10 +4,12 @@
   "name": "Mama Poladsky's GIF Blocker",
   "description": "Because those things are just terrible!",
   "version": "1.0",
-
+  "options_page": "options.html",
+  "background": {
+    "scripts": ["background.js"]
+  },
   "browser_action": {
     "default_icon": "img/icon.png",
-    "default_popup": "popup.html",
     "default_title": "GIF BE GONE!"
   },
   "content_scripts": [
@@ -18,6 +20,7 @@
     }
   ],
   "permissions": [
-    "https://secure.flickr.com/"
+    "tabs",
+    "storage"
   ]
 }
