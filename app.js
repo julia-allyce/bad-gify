@@ -1,8 +1,9 @@
-var badGifies = document.querySelectorAll('img[src$=".gif"]'),
-	blockByDefault = false,
+var blockByDefault = false,
 	gifsHidden = false;
 
 function toggleGifs () {
+	var badGifies = document.querySelectorAll('img[src$=".gif"]');
+
 	if(!badGifies.length)
 		return;
 
