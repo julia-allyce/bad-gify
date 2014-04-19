@@ -21,15 +21,16 @@ function toggleGifs () {
 }
 
 chrome.runtime.onMessage.addListener(function (response) {
-	if(response.message.kind === 'gifBlocker') {
-	 	if (response.message.data === 'toggleGifs') {
+	if(response.kind === 'gifBlocker') {
+	 	if (response.data === 'toggleGifs') {
 	 		toggleGifs();
 	 	}
 
-	 	if (response.message.data === 'blockByDefault') {
+	 	if (response.data === 'blockByDefault') {
 	 		blockByDefault = response.results.blockByDefault;
-			if (blockByDefault)
+			if (blockByDefault) {
 				toggleGifs();
+			}
 	 	}
 	}
 });

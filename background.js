@@ -1,15 +1,19 @@
 chrome.browserAction.onClicked.addListener(function (tab) {
-	chrome.tabs.sendMessage(tab.id, {message: 'toggleGifs'});
+	chrome.tabs.sendMessage(tab.id, {
+		kind: 'gifBlocker',
+		data: 'toggleGifs'
+	});
 });
 
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 	if(message.kind === 'gifBlocker') {
-		if (message === 'isBlockedByDefault') {
+		if (message.data === 'isBlockedByDefault') {
 			var storage = chrome.storage.sync;
 
 			storage.get('blockByDefault', function (results) {
 				chrome.tabs.sendMessage(sender.tab.id, { 
-					message: 'blockByDefault',
+					kind: 'gifBlocker',
+					data: 'blockByDefault',
 					results: results
 				});
 			});
