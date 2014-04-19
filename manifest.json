@@ -3,7 +3,7 @@
 
   "name": "Mama Poladsky's GIF Blocker",
   "description": "Because those things are just terrible!",
-  "version": "1.0",
+  "version": "1.666",
   "icons": {
     "16": "img/icon.png",
     "48": "img/icon-48.png",
@@ -26,6 +26,6 @@
   ],
   "permissions": [
     "tabs",
-    "storage"
+    "storage",
   ]
 }

